@@ -50,11 +50,12 @@ const socket = io("http://localhost:8080")
 let arrayProductos = []
 document.getElementById("send").addEventListener("click", postProduct)
 
-function postProduct()  {
+function postProduct(event)  {
+  event.preventDefault()
   let product = {
   "title" : document.getElementById("title").value,
   "description" : document.getElementById("description").value,
-  "category" : document.getElementById("category").value,
+  "categoria" : document.getElementById("category").value,
   "price" : document.getElementById("price").value,
   "stock" : document.getElementById("stock").value,
   }
@@ -64,7 +65,6 @@ function postProduct()  {
 }
 
 function eliminarProducto(id) {
-  console.log(id)
   socket.emit("eliminarProducto", id)
 }
 
@@ -72,7 +72,7 @@ socket.on("arrayProductos", data => {
   let historial = document.getElementById("history")
   historial.innerHTML = ""
 
-  data.forEach(element => {
+  data.map(element => {
     historial.innerHTML += `
                     <tr>
                     <td> ${element.title} </td>
